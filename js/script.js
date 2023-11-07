@@ -20,8 +20,16 @@ function Products(name, image){
     this.votes = 0,
     this.views = 0,
     state.allProducts.push(this);
+    Products.currentlyConsidered = [];
 }
 
+Products.currentlyConsidered = [];
+
+
+
+
+
+console.log(this.votes)
 function renderProducts(){
 
     function productRandomizer(){
@@ -32,10 +40,14 @@ function renderProducts(){
     let product2 = productRandomizer();
     let product3 = productRandomizer();
     
-    // this only randomizes 2 of them, have to come back to it
-    // while (product1 === product2){
-    //     product2 = productRandomizer();
-    // }
+    
+    while (product1 === product2){
+        product2 = productRandomizer();
+        
+    }
+    while (product1 === product3 || product2 === product3){
+        product3 = productRandomizer();
+    }
 
     img1.src = state.allProducts[product1].imageSrc;
     img1.alt = state.allProducts[product1].name
@@ -53,9 +65,16 @@ function renderStatsButton(){
     button.style.display = 'block';
 }
 
-function renderStats(){
-    console.log("stats");
-}
+function renderStats() {
+   
+    statsContainer.innerHTML = '';
+  
+    state.allProducts.forEach(product => {
+      const productStats = document.createElement('p');
+      productStats.textContent = `${product.name} - Votes: ${product.votes}, Views: ${product.views}`;
+      statsContainer.appendChild(productStats);
+    });
+  }
 
 function clickEvent(event){
     let productName = event.target.alt;
@@ -68,6 +87,8 @@ function clickEvent(event){
     }
 
     state.currentClicks++;
+    
+    
 
     if(state.currentClicks >= state.maxClicks){
         removeListener();
@@ -83,6 +104,7 @@ function allListener(){
 
     productsContainer.addEventListener("click", clickEvent);
     button.addEventListener("click",renderStats)
+    
 
 
 }
@@ -115,3 +137,4 @@ new Products("wine-glass","img/wine-glass.jpg");
 
 renderProducts();
 allListener();
+

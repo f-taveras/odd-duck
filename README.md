@@ -1,21 +1,16 @@
-# LAB - Number
+# LAB - 11
 
-## Project Name
+## Odd Duck
 
-I build an app with a direct and powerful purpose. It does all of the things that it accomplishes well. I should describe the purpose and functionality so those that visit my README understand the app
+This app will take a survey and display the number of votes and views of each image
 
-### Author: Student/Group Name
-
-### Links and Resources
-
-* [submission PR](http://xyz.com)
-* Any Links you used as reference
+### Author: Felix A. Taveras
 
 ### Lighthouse Accessibility Report Score
 
-* Provide a screenshot of your score after running a Lighthouse Accessibility report.
+* ![Lighthouse Report](img/lighthouse.png)
 
 ### Reflections and Comments
 
-* Consider including the answers to your daily journal and submission questions here
-* This is also a good place to reflect on the tools and resources used and learned
+* I would love to edit this and make it prettier with time
+* it's getting easier, but my biggest challenge was to connect everything and display the votes and views.
