@@ -82,8 +82,10 @@ function clickEvent(event){
     for (let i = 0; i< state.allProducts.length; i++){
         if( productName === state.allProducts[i].name){
             state.allProducts[i].votes++;
+            state.allProducts[i].views++;
             break;
         }
+
     }
 
     state.currentClicks++;
