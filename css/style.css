@@ -13,6 +13,7 @@ img {
       "header header header header header"
       ". img1 img2 img3 ."
       ". . . . ."; 
+      gap: 10px;
   }
   header { 
     grid-area: header; 
@@ -48,6 +49,12 @@ header h1{
 #productsContainer img{
 
     box-shadow: 5px 5px 10px 2px #000;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#productsContainer img:hover {
+  transform: scale(1.1);
 }
 
 #productsContainer img:first-child {grid-area: img1;}
