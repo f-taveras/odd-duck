@@ -75,3 +75,8 @@ header h1{
     background-color: #ff8500; /* Change the color on hover */
   }
 
+  #statsContainer{
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
