@@ -2,9 +2,9 @@ const productsContainer = document.getElementById("productsContainer");
 const statsContainer = document.getElementById("statsContainer")
 
 
-const img1 = document.querySelector('#products img:first-child');
-const img2 = document.querySelector('#products img:nth-child(2)');
-const img3 = document.querySelector('#products img:nth-child(3)');
+const img1 = document.querySelector('#productsContainer img:first-child');
+const img2 = document.querySelector('#productsContainer img:nth-child(2)');
+const img3 = document.querySelector('#productsContainer img:nth-child(3)');
 
 const button = document.getElementById('showStats');
 
@@ -33,9 +33,9 @@ function renderProducts(){
     let product3 = productRandomizer();
     
     // this only randomizes 2 of them, have to come back to it
-    while (product1 === product2){
-        product2 = productRandomizer();
-    }
+    // while (product1 === product2){
+    //     product2 = productRandomizer();
+    // }
 
     img1.src = state.allProducts[product1].imageSrc;
     img1.alt = state.allProducts[product1].name
@@ -53,7 +53,7 @@ function renderStatsButton(){
     button.style.display = 'block';
 }
 
-function rederStats(){
+function renderStats(){
     console.log("stats");
 }
 
@@ -70,7 +70,7 @@ function clickEvent(event){
     state.currentClicks++;
 
     if(state.currentClicks >= state.maxClicks){
-        removeEventListener();
+        removeListener();
         renderStatsButton();
 
     }else{
@@ -79,5 +79,39 @@ function clickEvent(event){
 }
 
 function allListener(){
-    
+
+
+    productsContainer.addEventListener("click", clickEvent);
+    button.addEventListener("click",renderStats)
+
+
 }
+
+function removeListener(){
+    productsContainer.removeEventListener('click', clickEvent)
+}
+
+
+new Products("bag", "img/bag.jpg");
+new Products("banana", "img/banana.jpg");
+new Products("bathroom", "img/bathroom.jpg");
+new Products("boots", "img/boots.jpg");
+new Products("breakfast", "img/breakfast.jpg");
+new Products("bubblegum", "img/bubblegum.jpg");
+new Products("chair", "img/chair.jpg");
+new Products("cthulhu", "img/cthulhu.jpg");
+new Products("dog-duck", "img/dog-duck.jpg");
+new Products("dragon", "img/dragon.jpg");
+new Products("pen", "img/pen.jpg");
+new Products("pet-sweep", "img/pet-sweep.jpg");
+new Products("scissors", "img/scissors.jpg");
+new Products("shark", "img/shark.jpg");
+new Products("sweep", "img/sweep.png");
+new Products("tauntaun", "img/tauntaun.jpg");
+new Products("unicorn", "img/unicorn.jpg");
+new Products("water-can", "img/water-can.jpg");
+new Products("wine-glass","img/wine-glass.jpg");
+
+
+renderProducts();
+allListener();
