@@ -146,7 +146,7 @@ function renderChart() {
     const productNames = state.allProducts.map(product => product.name);
     const voteTotals = state.allProducts.map(product => product.votes);
     const viewCounts = state.allProducts.map(product => product.views);
-    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx = document.getElementById('myChart'); //.getContext('2d');
   
     new Chart(ctx, {
       type: 'bar',
@@ -170,6 +170,8 @@ function renderChart() {
         ],
       },
       options: {
+        responsive: false,
+
         scales: {
           y: {
             beginAtZero: true,
