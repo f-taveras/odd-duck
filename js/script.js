@@ -30,34 +30,38 @@ Products.currentlyConsidered = [];
 
 
 console.log(this.votes)
-function renderProducts(){
-
-    function productRandomizer(){
-        return Math.floor(Math.random() * state.allProducts.length)
+function renderProducts() {
+    function productRandomizer(exclude) {
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * state.allProducts.length);
+        } while (exclude.includes(randomIndex));
+        return randomIndex;
     }
 
-    let product1 = productRandomizer();
-    let product2 = productRandomizer();
-    let product3 = productRandomizer();
-    
-    
-    while (product1 === product2){
-        product2 = productRandomizer();
-        
-    }
-    while (product1 === product3 || product2 === product3){
-        product3 = productRandomizer();
-    }
+    let productIndices = [];
+    let product1, product2, product3;
+
+    product1 = productRandomizer(productIndices);
+    productIndices.push(product1);
+
+    product2 = productRandomizer(productIndices);
+    productIndices.push(product2);
+
+    product3 = productRandomizer(productIndices);
+    productIndices.push(product3);
 
     img1.src = state.allProducts[product1].imageSrc;
-    img1.alt = state.allProducts[product1].name
+    img1.alt = state.allProducts[product1].name;
+    state.allProducts[product1].views++;
 
     img2.src = state.allProducts[product2].imageSrc;
-    img2.alt = state.allProducts[product2].name
+    img2.alt = state.allProducts[product2].name;
+    state.allProducts[product2].views++;
 
     img3.src = state.allProducts[product3].imageSrc;
-    img3.alt = state.allProducts[product3].name
-    
+    img3.alt = state.allProducts[product3].name;
+    state.allProducts[product3].views++;
 }
 
 function renderStatsButton(){
@@ -82,12 +86,13 @@ function clickEvent(event){
     for (let i = 0; i< state.allProducts.length; i++){
         if( productName === state.allProducts[i].name){
             state.allProducts[i].votes++;
-            state.allProducts[i].views++;
+           state.allProducts[i].views++;
             break;
         }
-
+        
     }
 
+   
     state.currentClicks++;
     
     
