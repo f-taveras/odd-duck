@@ -12,8 +12,8 @@ img {
         grid-template-areas: 
       "header header header header header"
       ". img1 img2 img3 ."
-      ". . . . ."; 
-      gap: 10px;
+      ". . btn . ."; 
+      
   }
   header { 
     grid-area: header; 
@@ -49,12 +49,6 @@ header h1{
 #productsContainer img{
 
     box-shadow: 5px 5px 10px 2px #000;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-#productsContainer img:hover {
-  transform: scale(1.1);
 }
 
 #productsContainer img:first-child {grid-area: img1;}
@@ -62,7 +56,7 @@ header h1{
 #productsContainer img:nth-child(3) { grid-area: img3; }
 
 
-#showStats{
+.statsButton{
     display: none;
     /* display: inline-block; */
     padding: 10px 20px;
@@ -78,12 +72,41 @@ header h1{
     margin-left: 20px;
   }
 
- #showStats:hover {
+ .statsButton:hover {
     background-color: #ff8500; /* Change the color on hover */
   }
 
-  #statsContainer{
+  /* #statsContainer{
     margin-left: 20px;
     margin-top: 20px;
+  } */
+
+  .hidden {
+    display: none;
+  }
+  
+  #showChartButton{
+
+align-items: center;
+    text-align: center;
+    font-size: large;
+    font-weight: 800;
+    margin-top: 20px;
+    /* display: inline-block; */
+    padding: 10px 20px;
+    background-color: #ffA500; /* Use your preferred shade of orange */
+    color: #fff; /* Text color */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-left: 20px;
   }
 
+  element.style {
+    width: 300px;
+    height: 300px;
+  }
