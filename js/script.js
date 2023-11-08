@@ -1,11 +1,9 @@
+const showChartButton = document.getElementById('showChartButton');
 const productsContainer = document.getElementById("productsContainer");
 const statsContainer = document.getElementById("statsContainer")
-
-
 const img1 = document.querySelector('#productsContainer img:first-child');
 const img2 = document.querySelector('#productsContainer img:nth-child(2)');
 const img3 = document.querySelector('#productsContainer img:nth-child(3)');
-
 const button = document.getElementById('showStats');
 
 let state = {
@@ -25,11 +23,6 @@ function Products(name, image){
 
 Products.currentlyConsidered = [];
 
-
-
-
-
-console.log(this.votes)
 function renderProducts() {
     function productRandomizer(exclude) {
         let randomIndex;
@@ -66,7 +59,7 @@ function renderProducts() {
 
 function renderStatsButton(){
 
-    button.style.display = 'block';
+    button.style.display = 'flex';
 }
 
 function renderStats() {
@@ -87,19 +80,19 @@ function clickEvent(event){
         if( productName === state.allProducts[i].name){
             state.allProducts[i].votes++;
            state.allProducts[i].views++;
-            break;
+           
+           break;
         }
         
     }
 
    
     state.currentClicks++;
-    
-    
 
     if(state.currentClicks >= state.maxClicks){
         removeListener();
-        renderStatsButton();
+        // renderStatsButton();
+        renderChartButton();
 
     }else{
         renderProducts();
@@ -144,4 +137,62 @@ new Products("wine-glass","img/wine-glass.jpg");
 
 renderProducts();
 allListener();
+
+// ---------------------------- Chart -----------------------------------------
+
+
+
+function renderChart() {
+    const productNames = state.allProducts.map(product => product.name);
+    const voteTotals = state.allProducts.map(product => product.votes);
+    const viewCounts = state.allProducts.map(product => product.views);
+    const ctx = document.getElementById('myChart').getContext('2d');
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: productNames,
+        datasets: [
+          {
+            label: 'Votes',
+            data: voteTotals,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+          },
+          {
+            label: 'Views',
+            data: viewCounts,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+ 
+ 
+ function renderChartButton(){
+     showChartButton.classList.remove('hidden')
+}
+
+showChartButton.addEventListener('click', showChart);
+
+
+function showChart() {
+    const chartCanvas = document.getElementById('myChart');
+    chartCanvas.classList.remove('hidden');
+    
+
+    renderChart();
+}
+
 

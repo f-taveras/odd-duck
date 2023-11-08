@@ -4,6 +4,7 @@
     <title>Odd Duck</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -18,10 +19,15 @@
         <img class="img3"/>
       </section>
 
-      <button id="showStats">Show Stats</button>
+      <button id="showStats" class="statsButton">Show Stats</button>
       <section id="statsContainer"></section>
+
+      <canvas id="myChart" class="hidden" width="300px" height="300px"></canvas>
+      <button id="showChartButton" class="hidden">Show Chart</button>
+
     </main>
 </body>
 
 <script src="js/script.js"></script>
+
 </html>
