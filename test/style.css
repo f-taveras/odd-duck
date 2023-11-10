@@ -1,0 +1,73 @@
+header h1 {
+    padding-top: 20px;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 36px;
+    color: blue;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.productsContainer {
+    display: grid;
+    grid-template-columns: 1.3fr 0.8fr 0.8fr 0.8fr 1.3fr;
+    grid-template-rows: 0.3fr 1.7fr 1fr;
+    grid-template-areas:
+        "header header header header header"
+        ". img1 img2 img3 ."
+        ". . btn . .";
+    
+        gap: 20px;
+}
+
+.productsContainer img:first-child {
+    grid-area: img1;
+}
+
+.productsContainer img:nth-child(2) {
+    grid-area: img2;
+}
+
+.productsContainer img:nth-child(3) {
+    grid-area: img3;
+}
+.productsContainer img{
+    box-shadow: 5px 5px 10px 2px #000;
+    height: 300px;
+    width: 300px;
+}
+nav {
+    display: flex-box;
+    background-color: #3498db; 
+    padding: 10px;
+    gap: 20px;
+    
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;}
+
+    nav ul li a:hover {
+        transform: scale(1.1); 
+    }
+    a{
+        margin-bottom: 5px;
+    }
+
