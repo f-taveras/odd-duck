@@ -1,5 +1,4 @@
-const showChartButton = document.getElementById('showChartButton');
-const productsContainer = document.getElementById("productsContainer");
+
 const statsContainer = document.getElementById("statsContainer")
 const img1 = document.querySelector('#productsContainer img:first-child');
 const img2 = document.querySelector('#productsContainer img:nth-child(2)');
@@ -36,7 +35,7 @@ function renderProducts() {
   let productIndices = [];
   let product1, product2, product3;
 
-  // Generate unique indices for the new set of products
+ 
   product1 = getRandomIndex([...lastProductIndices, ...productIndices]);
   productIndices.push(product1);
 
@@ -45,7 +44,7 @@ function renderProducts() {
 
   product3 = getRandomIndex([...lastProductIndices, ...productIndices]);
 
-  // Update lastProductIndices for the next iteration
+  
   state.lastProductIndices = [...productIndices];
 
   img1.src = state.allProducts[product1].imageSrc;
@@ -59,6 +58,11 @@ function renderProducts() {
   img3.src = state.allProducts[product3].imageSrc;
   img3.alt = state.allProducts[product3].name;
   state.allProducts[product3].views++;
+
+
+ 
+    saveProductsToLocalStorage();
+
 }
 
 function renderStatsButton(){
@@ -77,32 +81,28 @@ function renderStats() {
     });
   }
 
-function clickEvent(event){
+  function clickEvent(event) {
     let productName = event.target.alt;
 
-    for (let i = 0; i< state.allProducts.length; i++){
-        if( productName === state.allProducts[i].name){
+    for (let i = 0; i < state.allProducts.length; i++) {
+        if (productName === state.allProducts[i].name) {
             state.allProducts[i].votes++;
-           state.allProducts[i].views++;
-           
-           break;
+            state.allProducts[i].views++;
+            break;
         }
-        
     }
 
-   
     state.currentClicks++;
 
-    if(state.currentClicks >= state.maxClicks){
+    if (state.currentClicks >= state.maxClicks) {
         removeListener();
-        // renderStatsButton();
         renderChartButton();
-
-    }else{
+    } else {
         renderProducts();
+        
+        saveProductsToLocalStorage();
     }
 }
-
 function allListener(){
 
 
@@ -117,7 +117,23 @@ function removeListener(){
     productsContainer.removeEventListener('click', clickEvent)
 }
 
+function initialize() {
+  
+  loadProductsFromLocalStorage();
 
+  if (state.allProducts.length === 0) {
+      instantiateProducts();
+      
+      saveProductsToLocalStorage();
+  }
+
+  
+
+  
+  renderProducts();
+}
+
+initialize();
 new Products("bag", "img/bag.jpg");
 new Products("banana", "img/banana.jpg");
 new Products("bathroom", "img/bathroom.jpg");
@@ -216,6 +232,16 @@ function showChart() {
     
 
     renderChart();
+  }
+
+function saveProductsToLocalStorage() {
+  const productsJSON = JSON.stringify(state.allProducts);
+  localStorage.setItem('productsData', productsJSON);
 }
 
-
+function loadProductsFromLocalStorage() {
+  const storedProductsJSON = localStorage.getItem('productsData');
+  if (storedProductsJSON) {
+      state.allProducts = JSON.parse(storedProductsJSON);
+  }
+}
