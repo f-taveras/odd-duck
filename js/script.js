@@ -6,60 +6,81 @@ const img2 = document.querySelector('#productsContainer img:nth-child(2)');
 const img3 = document.querySelector('#productsContainer img:nth-child(3)');
 const button = document.getElementById('showStats');
 
-let state = {
-    currentClicks: 0,
-    maxClicks: 25,
-    allProducts: [],
-};
 
-function Products(name, image){
-    this.name = name,
-    this.imageSrc = image,
-    this.votes = 0,
-    this.views = 0,
-    state.allProducts.push(this);
-    Products.currentlyConsidered = [];
+
+function Appstate(){
+  this.allProducts = [];
 }
 
-Products.currentlyConsidered = [];
+Appstate.prototype.createProduct = function (){
+  const productNames =  ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'water-can', 'wine-glass'];
+  
+  for (let i = 0; i < productNames.length; i++)
+  this.allProducts.push(new Product(productNames[i]));
 
-function renderProducts() {
-  function getRandomIndex(exclude) {
-      let randomIndex;
-      do {
-          randomIndex = Math.floor(Math.random() * state.allProducts.length);
-      } while (exclude.includes(randomIndex));
-      return randomIndex;
+}
+
+
+Appstate.prototype.saveToLocalStorage = function () {
+  localStorage.setItem('productsData', JSON.stringify(this.allProducts));
+}
+
+Appstate.prototype.loadItems = function (){
+  const productInfoString = localStorage.getItem('productsData');
+
+  if (productInfoString) {
+    this.allProducts = JSON.parse(productInfoString);
+      } else {
+        this.createProduct();
+      }
+}
+
+function Product(name, fileExtension = 'jpg'){
+  this.name = name;
+  this.source = `../img/${name}.${fileExtension}`;
+  this.timesClicked = 0;
+  this.views = 0;
+}
+
+
+
+let MaxVotes = 25;
+let allProductArray = [];
+
+let imgElements = document.querySelectorAll('img')
+let imgContainer = document.querySelector('section')
+
+let state = new Appstate()
+state.loadItems();
+
+function generateRandomProduct(){
+  return Math.floor(Math.random() * state.allProducts.length);
+}
+
+function renderProductImages(){
+while (allProductArray.length < 6){
+  let randomProductIndex = generateRandomProduct();
+  if (!allProductArray.includes(randomProductIndex)){
+    allProductArray.push(randomProductIndex);
   }
-
-  let lastProductIndices = state.lastProductIndices || [];
-  let productIndices = [];
-  let product1, product2, product3;
-
-  // Generate unique indices for the new set of products
-  product1 = getRandomIndex([...lastProductIndices, ...productIndices]);
-  productIndices.push(product1);
-
-  product2 = getRandomIndex([...lastProductIndices, ...productIndices]);
-  productIndices.push(product2);
-
-  product3 = getRandomIndex([...lastProductIndices, ...productIndices]);
-
-  // Update lastProductIndices for the next iteration
-  state.lastProductIndices = [...productIndices];
-
-  img1.src = state.allProducts[product1].imageSrc;
-  img1.alt = state.allProducts[product1].name;
-  state.allProducts[product1].views++;
-
-  img2.src = state.allProducts[product2].imageSrc;
-  img2.alt = state.allProducts[product2].name;
-  state.allProducts[product2].views++;
-
-  img3.src = state.allProducts[product3].imageSrc;
-  img3.alt = state.allProducts[product3].name;
-  state.allProducts[product3].views++;
 }
+
+for (let i = 0; i < imgElements.length; i++){
+  let randomIndex = allProductArray.shift()
+
+  imgElements[i].src = state.allProducts[randomIndex].source
+  imgElements[i].title = state.allProducts[randomIndex].name
+  imgElements[i].alt = state.allProducts[randomIndex].name
+  state.allProducts[randomIndex].views++;
+}
+}
+
+renderProductImages();
+imgContainer.addEventListener('click', clickEvent);
+
+
+
+
 
 function renderStatsButton(){
 
@@ -78,29 +99,25 @@ function renderStats() {
   }
 
 function clickEvent(event){
-    let productName = event.target.alt;
+  if (MaxVotes > 0) {
+    let imageClicked = event.target.alt;
 
-    for (let i = 0; i< state.allProducts.length; i++){
-        if( productName === state.allProducts[i].name){
-            state.allProducts[i].votes++;
-           state.allProducts[i].views++;
-           
-           break;
+    for (let i = 0; i < state.allProducts.length; i++) {
+      if (imageClicked === state.allProducts[i].name) {
+        state.allProducts[i].timesClicked++;
+        MaxVotes--;
+
+        if (MaxVotes === 0) {
+          imgContainer.removeEventListener('click', clickEvent);
+          state.saveToLocalStorage();
+          renderChartButton();
         }
-        
+
+        renderProductImages();
+        break;
+      }
     }
-
-   
-    state.currentClicks++;
-
-    if(state.currentClicks >= state.maxClicks){
-        removeListener();
-        // renderStatsButton();
-        renderChartButton();
-
-    }else{
-        renderProducts();
-    }
+  }
 }
 
 function allListener(){
@@ -118,28 +135,6 @@ function removeListener(){
 }
 
 
-new Products("bag", "img/bag.jpg");
-new Products("banana", "img/banana.jpg");
-new Products("bathroom", "img/bathroom.jpg");
-new Products("boots", "img/boots.jpg");
-new Products("breakfast", "img/breakfast.jpg");
-new Products("bubblegum", "img/bubblegum.jpg");
-new Products("chair", "img/chair.jpg");
-new Products("cthulhu", "img/cthulhu.jpg");
-new Products("dog-duck", "img/dog-duck.jpg");
-new Products("dragon", "img/dragon.jpg");
-new Products("pen", "img/pen.jpg");
-new Products("pet-sweep", "img/pet-sweep.jpg");
-new Products("scissors", "img/scissors.jpg");
-new Products("shark", "img/shark.jpg");
-new Products("sweep", "img/sweep.png");
-new Products("tauntaun", "img/tauntaun.jpg");
-new Products("unicorn", "img/unicorn.jpg");
-new Products("water-can", "img/water-can.jpg");
-new Products("wine-glass","img/wine-glass.jpg");
-
-
-renderProducts();
 allListener();
 
 // ---------------------------- Chart -----------------------------------------
@@ -148,7 +143,7 @@ allListener();
 
 function renderChart() {
   const productNames = state.allProducts.map(product => product.name);
-  const voteTotals = state.allProducts.map(product => product.votes);
+  const voteTotals = state.allProducts.map(product => product.timesClicked);
   const viewCounts = state.allProducts.map(product => product.views);
   const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -168,7 +163,7 @@ function renderChart() {
           label: 'Views',
           data: viewCounts,
           backgroundColor: 'red',
-          borderColor: 'black',
+          borderColor: 'red',
           borderWidth: 1,
         },
       ],
