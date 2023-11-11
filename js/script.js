@@ -1,5 +1,4 @@
-const showChartButton = document.getElementById('showChartButton');
-const productsContainer = document.getElementById("productsContainer");
+
 const statsContainer = document.getElementById("statsContainer")
 const img1 = document.querySelector('#productsContainer img:first-child');
 const img2 = document.querySelector('#productsContainer img:nth-child(2)');
@@ -44,14 +43,17 @@ function Product(name, fileExtension = 'jpg'){
 
 
 
+
 let MaxVotes = 25;
 let allProductArray = [];
 
 let imgElements = document.querySelectorAll('img')
 let imgContainer = document.querySelector('section')
 
+
 let state = new Appstate()
 state.loadItems();
+
 
 function generateRandomProduct(){
   return Math.floor(Math.random() * state.allProducts.length);
@@ -68,10 +70,12 @@ while (allProductArray.length < 6){
 for (let i = 0; i < imgElements.length; i++){
   let randomIndex = allProductArray.shift()
 
+
   imgElements[i].src = state.allProducts[randomIndex].source
   imgElements[i].title = state.allProducts[randomIndex].name
   imgElements[i].alt = state.allProducts[randomIndex].name
   state.allProducts[randomIndex].views++;
+
 }
 }
 
@@ -98,6 +102,7 @@ function renderStats() {
     });
   }
 
+
 function clickEvent(event){
   if (MaxVotes > 0) {
     let imageClicked = event.target.alt;
@@ -116,10 +121,10 @@ function clickEvent(event){
         renderProductImages();
         break;
       }
+
     }
   }
 }
-
 function allListener(){
 
 
@@ -132,6 +137,22 @@ function allListener(){
 
 function removeListener(){
     productsContainer.removeEventListener('click', clickEvent)
+}
+
+function initialize() {
+  
+  loadProductsFromLocalStorage();
+
+  if (state.allProducts.length === 0) {
+      instantiateProducts();
+      
+      saveProductsToLocalStorage();
+  }
+
+  
+
+  
+  renderProducts();
 }
 
 
@@ -211,6 +232,16 @@ function showChart() {
     
 
     renderChart();
+  }
+
+function saveProductsToLocalStorage() {
+  const productsJSON = JSON.stringify(state.allProducts);
+  localStorage.setItem('productsData', productsJSON);
 }
 
-
+function loadProductsFromLocalStorage() {
+  const storedProductsJSON = localStorage.getItem('productsData');
+  if (storedProductsJSON) {
+      state.allProducts = JSON.parse(storedProductsJSON);
+  }
+}

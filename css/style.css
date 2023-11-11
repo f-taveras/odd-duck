@@ -56,6 +56,7 @@ header h1 {
   0%,
   100% {
     transform: translateY(0);
+
   }
 
   50% {
@@ -63,6 +64,24 @@ header h1 {
   }
 }
 
+
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+#productsContainer img {
+  box-shadow: 5px 5px 10px 2px #000;
+  height: 300px;
+  width: 300px;
+  border: rgb(90, 87, 87) solid 10px;
+}
+
+#productsContainer img:first-child {
+  grid-area: img1;
+}
 
 #productsContainer img {
   box-shadow: 5px 5px 10px 2px #000;
@@ -83,9 +102,10 @@ header h1 {
   grid-area: img3;
 }
 
+
 .statsButton {
   display: none;
-  padding: 10px 20px;
+   padding: 10px 20px;
   background-color: #ffA500;
   color: #fff;
   font-size: 16px;
@@ -98,10 +118,6 @@ header h1 {
   margin-left: 20px;
   height: 150px;
   width: 200px;
-}
-
-#showChartButton:hover {
-  background-color: #ff8500;
 }
 
 #statsContainer {
