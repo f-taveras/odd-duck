@@ -97,7 +97,7 @@ function renderStats() {
   
     state.allProducts.forEach(product => {
       const productStats = document.createElement('p');
-      productStats.textContent = `${product.name} - Votes: ${product.votes}, Views: ${product.views}`;
+      productStats.textContent = `${product.name} - Votes: ${product.timesClicked}, Views: ${product.views}`;
       statsContainer.appendChild(productStats);
     });
   }
