@@ -58,11 +58,6 @@ function renderProducts() {
   img3.src = state.allProducts[product3].imageSrc;
   img3.alt = state.allProducts[product3].name;
   state.allProducts[product3].views++;
-
-
- 
-    saveProductsToLocalStorage();
-
 }
 
 function renderStatsButton(){
@@ -81,28 +76,33 @@ function renderStats() {
     });
   }
 
-  function clickEvent(event) {
+function clickEvent(event){
     let productName = event.target.alt;
 
-    for (let i = 0; i < state.allProducts.length; i++) {
-        if (productName === state.allProducts[i].name) {
+    for (let i = 0; i< state.allProducts.length; i++){
+        if( productName === state.allProducts[i].name){
+          
             state.allProducts[i].votes++;
-            state.allProducts[i].views++;
-            break;
+           state.allProducts[i].views++;
+           
+           break;
         }
+        
     }
 
+   
     state.currentClicks++;
 
-    if (state.currentClicks >= state.maxClicks) {
+    if(state.currentClicks >= state.maxClicks){
         removeListener();
+       
         renderChartButton();
-    } else {
+
+    }else{
         renderProducts();
-        
-        saveProductsToLocalStorage();
     }
 }
+
 function allListener(){
 
 
@@ -117,23 +117,7 @@ function removeListener(){
     productsContainer.removeEventListener('click', clickEvent)
 }
 
-function initialize() {
-  
-  loadProductsFromLocalStorage();
 
-  if (state.allProducts.length === 0) {
-      instantiateProducts();
-      
-      saveProductsToLocalStorage();
-  }
-
-  
-
-  
-  renderProducts();
-}
-
-initialize();
 new Products("bag", "img/bag.jpg");
 new Products("banana", "img/banana.jpg");
 new Products("bathroom", "img/bathroom.jpg");
@@ -148,7 +132,7 @@ new Products("pen", "img/pen.jpg");
 new Products("pet-sweep", "img/pet-sweep.jpg");
 new Products("scissors", "img/scissors.jpg");
 new Products("shark", "img/shark.jpg");
-new Products("sweep", "img/sweep.png");
+new Products("sweep", "img/sweep.jpg");
 new Products("tauntaun", "img/tauntaun.jpg");
 new Products("unicorn", "img/unicorn.jpg");
 new Products("water-can", "img/water-can.jpg");
