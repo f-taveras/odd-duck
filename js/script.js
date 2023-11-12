@@ -1,3 +1,4 @@
+`use strict`
 
 const statsContainer = document.getElementById("statsContainer")
 const img1 = document.querySelector('#productsContainer img:first-child');
@@ -5,17 +6,17 @@ const img2 = document.querySelector('#productsContainer img:nth-child(2)');
 const img3 = document.querySelector('#productsContainer img:nth-child(3)');
 const button = document.getElementById('showStats');
 
-this.createProduct
 
-function Appstate(){
+
+function Appstate() {
   this.allProducts = [];
 }
 
-Appstate.prototype.createProduct = function (){
-  const productNames =  ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'water-can', 'wine-glass'];
-  
+Appstate.prototype.createProduct = function () {
+  const productNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'water-can', 'wine-glass'];
+
   for (let i = 0; i < productNames.length; i++)
-  this.allProducts.push(new Product(productNames[i]));
+    this.allProducts.push(new Product(productNames[i]));
 
 }
 
@@ -24,17 +25,17 @@ Appstate.prototype.saveToLocalStorage = function () {
   localStorage.setItem('productsData', JSON.stringify(this.allProducts));
 }
 
-Appstate.prototype.loadItems = function (){
+Appstate.prototype.loadItems = function () {
   const productInfoString = localStorage.getItem('productsData');
 
   if (productInfoString) {
     this.allProducts = JSON.parse(productInfoString);
-      } else {
-        this.createProduct();
-      }
+  } else {
+    this.createProduct();
+  }
 }
 
-function Product(name, fileExtension = 'jpg'){
+function Product(name, fileExtension = 'jpg') {
   this.name = name;
   this.source = `../img/${name}.${fileExtension}`;
   this.timesClicked = 0;
@@ -47,7 +48,7 @@ function Product(name, fileExtension = 'jpg'){
 let MaxVotes = 25;
 let allProductArray = [];
 
-let imgElements = document.querySelectorAll('img')
+let imgElements = document.querySelectorAll('#productsContainer img')
 let imgContainer = document.querySelector('section')
 
 
@@ -55,28 +56,28 @@ let state = new Appstate()
 state.loadItems();
 
 
-function generateRandomProduct(){
+function generateRandomProduct() {
   return Math.floor(Math.random() * state.allProducts.length);
 }
 
-function renderProductImages(){
-while (allProductArray.length < 6){
-  let randomProductIndex = generateRandomProduct();
-  if (!allProductArray.includes(randomProductIndex)){
-    allProductArray.push(randomProductIndex);
+function renderProductImages() {
+  while (allProductArray.length < 6) {
+    let randomProductIndex = generateRandomProduct();
+    if (!allProductArray.includes(randomProductIndex)) {
+      allProductArray.push(randomProductIndex);
+    }
   }
-}
 
-for (let i = 0; i < imgElements.length; i++){
-  let randomIndex = allProductArray.shift()
+  for (let i = 0; i < imgElements.length; i++) {
+    let randomIndex = allProductArray.shift()
 
 
-  imgElements[i].src = state.allProducts[randomIndex].source
-  imgElements[i].title = state.allProducts[randomIndex].name
-  imgElements[i].alt = state.allProducts[randomIndex].name
-  state.allProducts[randomIndex].views++;
+    imgElements[i].src = state.allProducts[randomIndex].source
+    imgElements[i].title = state.allProducts[randomIndex].name
+    imgElements[i].alt = state.allProducts[randomIndex].name
+    state.allProducts[randomIndex].views++;
 
-}
+  }
 }
 
 renderProductImages();
@@ -86,24 +87,24 @@ imgContainer.addEventListener('click', clickEvent);
 
 
 
-function renderStatsButton(){
+function renderStatsButton() {
 
-    button.style.display = 'flex';
+  button.style.display = 'flex';
 }
 
 function renderStats() {
-   
-    statsContainer.innerHTML = '';
-  
-    state.allProducts.forEach(product => {
-      const productStats = document.createElement('p');
-      productStats.textContent = `${product.name} - Votes: ${product.timesClicked}, Views: ${product.views}`;
-      statsContainer.appendChild(productStats);
-    });
-  }
+
+  statsContainer.innerHTML = '';
+
+  state.allProducts.forEach(product => {
+    const productStats = document.createElement('p');
+    productStats.textContent = `${product.name} - Votes: ${product.timesClicked}, Views: ${product.views}`;
+    statsContainer.appendChild(productStats);
+  });
+}
 
 
-function clickEvent(event){
+function clickEvent(event) {
   if (MaxVotes > 0) {
     let imageClicked = event.target.alt;
 
@@ -126,41 +127,35 @@ function clickEvent(event){
   }
 }
 
-function allListener(){
+function allListener() {
 
 
-    productsContainer.addEventListener("click", clickEvent);
-    button.addEventListener("click",renderStats)
-    
-
+  imgContainer.addEventListener("click", clickEvent);
+  button.addEventListener("click", renderStats)
 
 }
 
-function removeListener(){
-    productsContainer.removeEventListener('click', clickEvent)
+function removeListener() {
+  imgContainer.removeEventListener('click', clickEvent)
 }
 
 function initialize() {
-  
+
   loadProductsFromLocalStorage();
 
   if (state.allProducts.length === 0) {
-      instantiateProducts();
-      
-      saveProductsToLocalStorage();
+    this.createProduct
+
+    saveProductsToLocalStorage();
   }
 
-  
-
-  
-  renderProducts();
+  renderProductImages();
 }
 
 
 allListener();
 
 // ---------------------------- Chart -----------------------------------------
-
 
 
 function renderChart() {
@@ -212,28 +207,21 @@ function renderChart() {
   });
 }
 
-  
-  
-  
-  
-  
-  
- 
- 
- function renderChartButton(){
-     showChartButton.classList.remove('hidden')
+
+function renderChartButton() {
+  showChartButton.classList.remove('hidden')
 }
 
 showChartButton.addEventListener('click', showChart);
 
 
 function showChart() {
-    const chartCanvas = document.getElementById('statsContainer');
-    chartCanvas.classList.remove('hidden');
-    
+  const chartCanvas = document.getElementById('statsContainer');
+  chartCanvas.classList.remove('hidden');
 
-    renderChart();
-  }
+
+  renderChart();
+}
 
 function saveProductsToLocalStorage() {
   const productsJSON = JSON.stringify(state.allProducts);
@@ -243,6 +231,6 @@ function saveProductsToLocalStorage() {
 function loadProductsFromLocalStorage() {
   const storedProductsJSON = localStorage.getItem('productsData');
   if (storedProductsJSON) {
-      state.allProducts = JSON.parse(storedProductsJSON);
+    state.allProducts = JSON.parse(storedProductsJSON);
   }
 }
