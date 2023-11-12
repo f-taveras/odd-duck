@@ -37,12 +37,10 @@ Appstate.prototype.loadItems = function () {
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
-  // Use an absolute or correct relative path
-  this.source = `https://f-taveras.github.io/odd-duck/img/${name}.${fileExtension}`;
+  this.source = `/img/${name}.${fileExtension}`;
   this.timesClicked = 0;
   this.views = 0;
 }
-
 
 
 
