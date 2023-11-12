@@ -37,7 +37,7 @@ Appstate.prototype.loadItems = function () {
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
-  this.source = `../img/${name}.${fileExtension}`;
+  this.source = `img/${name}.${fileExtension}`;
   this.timesClicked = 0;
   this.views = 0;
 }
