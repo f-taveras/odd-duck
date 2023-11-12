@@ -5,7 +5,7 @@ const img2 = document.querySelector('#productsContainer img:nth-child(2)');
 const img3 = document.querySelector('#productsContainer img:nth-child(3)');
 const button = document.getElementById('showStats');
 
-
+this.createProduct
 
 function Appstate(){
   this.allProducts = [];
